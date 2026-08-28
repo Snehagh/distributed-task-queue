@@ -1,0 +1,40 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment: &env
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql+psycopg2://taskq:taskq@db:5432/taskq
+    depends_on: [redis, db]
+
+  worker:
+    build: .
+    command: python -m taskq.worker
+    environment: *env
+    depends_on: [redis, db]
+    deploy:
+      replicas: 2          # scale workers by bumping this
+    restart: unless-stopped
+
+  scheduler:
+    build: .
+    command: python -m taskq.scheduler
+    environment: *env
+    depends_on: [redis, db]
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: taskq
+      POSTGRES_PASSWORD: taskq
+      POSTGRES_DB: taskq
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
