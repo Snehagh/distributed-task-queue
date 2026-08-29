@@ -20,7 +20,7 @@ horizontal scaling.
 - **Durable job state** in PostgreSQL (status, attempts, result, error).
 - **FastAPI API**: submit, inspect, list, retry, and view queue stats.
 - **Horizontal scaling**: run more workers; they share the same queues.
-- **Tested** (17 unit/integration tests) and **linted** (ruff), with CI.
+- **Tested** (17 unit/integration tests) and **linted** (ruff), with CI.  
 
 ## Architecture 
 
