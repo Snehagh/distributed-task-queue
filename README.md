@@ -23,7 +23,7 @@ horizontal scaling.
 - **Tested** (17 unit/integration tests) and **linted** (ruff), with CI.  
 
 ## Architecture 
-
+  
 ```mermaid
 flowchart LR
     C[Client] -->|POST /jobs| A[FastAPI API]
